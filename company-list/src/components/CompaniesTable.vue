@@ -11,17 +11,21 @@
     </tr>
     <tbody class="table-body">
     <tr v-for="company in companies">
-      <td>{{company.name}}</td>
+      <td>{{ company.name }}</td>
       <template v-if="!editing">
-        <td @click="editing = true">{{company.address}}</td>
+        <td @click="editing = true">{{ company.address }}</td>
       </template>
       <template v-else>
-        <input @input="editing = false" v-model="company.address" />
+        <input @input="editing = false" v-model="company.address"/>
       </template>
-      <td>{{company.ogrn}}</td>
-      <td>{{company.inn}} <button @click="getCompanyByINN(company.inn, company)" class="inn-btn">загрузить</button></td>
-      <td>{{company.regTime}}</td>
-      <td class="delete-item"><button class="delete-row-btn btn" @click="deleteCompany(company)">Удалить компанию</button></td>
+      <td>{{ company.ogrn }}</td>
+      <td>{{ company.inn }}
+        <button @click="getCompanyByINN(company.inn, company)" class="inn-btn">загрузить</button>
+      </td>
+      <td>{{ company.regTime }}</td>
+      <td class="delete-item">
+        <button class="delete-row-btn btn" @click="deleteCompany(company)">Удалить компанию</button>
+      </td>
     </tr>
 
 
@@ -35,11 +39,12 @@
         <img src="@/assets/img/close.png" alt="close">
       </span>
 
-        <label>Наименование компании <input v-model="companyData.name" type="text" name="companyName" class="modal-input"></label>
-        <label>Адрес <input v-model="companyData.address" type="text" name="companyAddress" class="modal-input"></label>
-        <label>ОГРН <input v-model="companyData.ogrn" type="text" name="companyOGRN" class="modal-input"></label>
-        <label>ИНН <input v-model="companyData.inn" type="text" name="companyINN" class="modal-input"></label>
-        <label>Дата регистрации <input v-model="companyData.regTime" type="text" name="companyRegistration" class="modal-input"></label>
+      <label>Наименование компании <input v-model="companyData.name" type="text" name="companyName" class="modal-input"></label>
+      <label>Адрес <input v-model="companyData.address" type="text" name="companyAddress" class="modal-input"></label>
+      <label>ОГРН <input v-model="companyData.ogrn" type="text" name="companyOGRN" class="modal-input"></label>
+      <label>ИНН <input v-model="companyData.inn" type="text" name="companyINN" class="modal-input"></label>
+      <label>Дата регистрации <input v-model="companyData.regTime" type="date" name="companyRegistration"
+                                     class="modal-input"></label>
       <button type="button" v-on:click="addCompany()" value="Добавить" class="add-data-btn">Добавить</button>
     </form>
   </section>
@@ -51,7 +56,6 @@ export default {
   data() {
     return {
       isModalVisible: false,
-      tagEditingId: '2',
       companyData: {
         name: '',
         address: '',
@@ -59,12 +63,12 @@ export default {
         inn: '',
         regTime: '',
       },
-      companies: [],
+      companies: [{inn: '7736207543'}, {inn: '6679096487'}, {inn: '6660003190'}],
 
     }
   },
   methods: {
-    addCompany: function() {
+    addCompany: function () {
       let company = {
         name: this.companyData.name,
         address: this.companyData.address,
@@ -83,10 +87,7 @@ export default {
       this.isModalVisible = false;
     },
     deleteCompany: function (company) {
-       this.companies.splice(this.companies.findIndex(item => item === company), 1)
-    },
-    setToEditing: function (tag) {
-      this.tagEditingId = tag.id
+      this.companies.splice(this.companies.findIndex(item => item === company), 1)
     },
     getCompanyByINN: function (inn, company) {
       const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party";
@@ -106,9 +107,13 @@ export default {
           .then(response => response.json())
           .then(result => {
             company.name = result.suggestions[0].value;
-                company.address = result.suggestions[0].data.address.unrestricted_value;
-                company.ogrn = result.suggestions[0].data.ogrn;
-                company.regTime = new Date(result.suggestions[0].data.state.registration_date);
+            company.address = result.suggestions[0].data.address.unrestricted_value;
+            company.ogrn = result.suggestions[0].data.ogrn;
+            company.regTime = new Date(result.suggestions[0].data.state.registration_date).toLocaleString('ru-RU', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            });
           })
           .catch(error => console.log("error", error));
     }
@@ -118,5 +123,5 @@ export default {
 </script>
 
 <style scoped>
-  @import url("@/assets/style.css");
+@import url("@/assets/style.css");
 </style>
