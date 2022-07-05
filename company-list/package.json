@@ -1,5 +1,5 @@
 {
-  "name": " company-list",
+  "name": "company-list",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",

@@ -1,6 +1,5 @@
-<template>
+<template class="main-page">
   <button @click="isModalVisible=true" class="add-company-btn btn">Добавить компанию</button>
-
   <table class="company-list">
     <caption class="table-title">Список компаний</caption>
     <tr class="table-head">
@@ -12,17 +11,17 @@
     </tr>
     <tbody class="table-body">
     <tr v-for="company in companies">
-      <th>{{company.name}}</th>
+      <td>{{company.name}}</td>
       <template v-if="!editing">
-        <th @click="editing = true">{{company.address}}</th>
+        <td @click="editing = true">{{company.address}}</td>
       </template>
       <template v-else>
-        <input @click="editing = false" v-model="company.address" />
+        <input @input="editing = false" v-model="company.address" />
       </template>
-      <th>{{company.ogrn}}</th>
-      <th>{{company.inn}} <button @click="getCompanyByINN(company.inn, company)" class="inn-btn">загрузить</button></th>
-      <th>{{company.regTime}}</th>
-      <th class="delete-item"><button class="delete-row-btn btn" @click="deleteCompany(company)">Удалить компанию</button></th>
+      <td>{{company.ogrn}}</td>
+      <td>{{company.inn}} <button @click="getCompanyByINN(company.inn, company)" class="inn-btn">загрузить</button></td>
+      <td>{{company.regTime}}</td>
+      <td class="delete-item"><button class="delete-row-btn btn" @click="deleteCompany(company)">Удалить компанию</button></td>
     </tr>
 
 
@@ -41,16 +40,18 @@
         <label>ОГРН <input v-model="companyData.ogrn" type="text" name="companyOGRN" class="modal-input"></label>
         <label>ИНН <input v-model="companyData.inn" type="text" name="companyINN" class="modal-input"></label>
         <label>Дата регистрации <input v-model="companyData.regTime" type="text" name="companyRegistration" class="modal-input"></label>
-        <input type="button" v-on:click="addCompany()" value="Добавить" />
+      <button type="button" v-on:click="addCompany()" value="Добавить" class="add-data-btn">Добавить</button>
     </form>
   </section>
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       isModalVisible: false,
+      tagEditingId: '2',
       companyData: {
         name: '',
         address: '',
@@ -83,6 +84,9 @@ export default {
     },
     deleteCompany: function (company) {
        this.companies.splice(this.companies.findIndex(item => item === company), 1)
+    },
+    setToEditing: function (tag) {
+      this.tagEditingId = tag.id
     },
     getCompanyByINN: function (inn, company) {
       const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party";

@@ -1,12 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&family=Roboto:wght@400;500;700&display=swap');
+
+
+.main-page {
+    font-family: 'Roboto','Arial', sans-serif;;
+}
 .company-list {
-    font-size: 20px;
-    margin: 50px;
+    font-size: 22px;
+    margin: 50px auto;
     border-collapse: collapse;
+    min-width: 85%;
+    max-width: 95%;
+}
+
+.company-list td {
+    padding: 10px;
+    border-right: #9d9d9d 1px solid;
 }
 
 .company-list th {
     padding: 10px;
     border-right: #9d9d9d 1px solid;
+}
+
+.table-title {
+    font-size: 35px;
+    margin-bottom: 30px;
 }
 
 tr:nth-child(1) {
@@ -17,7 +35,11 @@ tr {
     border-bottom: #9d9d9d 1px solid;
 }
 
-.company-list th:nth-last-child(1) {
+.company-list td:nth-last-child(1), th:nth-last-child(1) {
+    border-right: none;
+}
+
+.company-list td:nth-last-child(2) {
     border-right: none;
 }
 
@@ -31,11 +53,27 @@ tr {
     min-height:30px;
     min-width: 120px;
 }
+.add-company-btn {
+    margin-left: 50px;
+}
 
 .delete-row-btn {
     padding: 10px;
     min-width: 100px;
     background-color: #d5264b;
+}
+
+.inn-btn {
+    margin-left: 10px;
+    color: #fff;
+    border:none;
+    border-radius:10px;
+    background-color: #479210;
+    padding: 10px;
+}
+
+.inn-btn:hover {
+    background-color: #5da428;
 }
 
 .delete-row-btn:hover {
@@ -107,4 +145,21 @@ tr {
 
 tr .delete-item {
     border: white 1px solid;
+}
+
+.add-data-btn {
+    display: block;
+    font-size: 16px;
+    align-self: center;
+    color: #fff;
+    border:none;
+    border-radius:10px;
+    background-color: #479210;
+    padding: 10px;
+    margin: 20px;
+    max-width: 250px;
+    min-width: 180px;
+}
+.add-data-btn:hover {
+    background-color: #5da428;
 }
